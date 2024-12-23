@@ -1,0 +1,53 @@
+
+generator client {
+  provider = "prisma-client-js"
+  output = "./__generate__"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id String @id @default(uuid())
+  name String 
+  email String @unique 
+  password String
+
+  account Account[]
+
+  createAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Account{
+  id String @id @default(uuid())
+  
+  type String
+  provider String
+
+  refreshToken String? @map("refresh_token")
+  accessToken String? @map("access_token")
+  expiresAt Int @map("expires_at")
+
+  createAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User? @relation(fields: [userId], references: [id])
+  userId String? @map("user_id")
+
+  @@map("accounts")
+}
+
+model Token{
+  id String @id @default(uuid())
+
+  email String
+  token String @unique
+  expiresIn DateTime @map("expires_in")
+
+  @@map("tokens")
+}
