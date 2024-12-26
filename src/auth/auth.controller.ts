@@ -16,19 +16,19 @@ import { RegisterDto } from "./dto/register.dto";
 export class AuthController {
 	constructor(private readonly authService: AuthService) {}
 
-	@Post("register")
+	@Post("/register")
 	@HttpCode(HttpStatus.OK)
 	public async register(@Req() req: Request, @Body() dto: RegisterDto) {
 		return this.authService.register(req, dto);
 	}
 
-	@Post("login")
+	@Post("/login")
 	@HttpCode(HttpStatus.OK)
 	public async login(@Req() req: Request, @Body() dto: LoginDto) {
 		return this.authService.login(req, dto);
 	}
 
-	@Post("logout")
+	@Post("/logout")
 	@HttpCode(HttpStatus.OK)
 	public async logout(
 		@Req() req: Request,
